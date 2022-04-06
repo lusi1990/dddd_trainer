@@ -59,7 +59,7 @@ class Train:
                 if int(checkpoint_name[3]) > history_step:
                     newer_checkpoint = checkpoint
                     history_step = int(checkpoint_name[3])
-            param, self.state_dict, self.optimizer= Net.load_checkpoint(
+            param, self.state_dict, self.optimizer = Net.load_checkpoint(
                 os.path.join(self.checkpoints_path, newer_checkpoint), self.device)
             self.epoch, self.step, self.lr = param['epoch'], param['step'], param['lr']
             self.epoch += 1
@@ -74,8 +74,6 @@ class Train:
             self.net.load_state_dict(self.state_dict)
         logger.info(self.net)
         logger.info("\nBuilding End")
-
-
 
         self.net = self.net.to(self.device)
         logger.info("\nGet Data Loader...")
@@ -155,7 +153,8 @@ class Train:
                                                  time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime(self.now_time))))
                                              , input_names, output_names, dynamic_ax)
                         with open(os.path.join(self.models_path, "charsets.json"), 'w', encoding="utf-8") as f:
-                            f.write(json.dumps({"charset": self.net.charset, "image": self.resize, "word": self.word, 'channel': self.ImageChannel}, ensure_ascii=False))
+                            f.write(json.dumps({"charset": self.net.charset, "image": self.resize, "word": self.word,
+                                                'channel': self.ImageChannel}, ensure_ascii=False))
                         logger.info("\nExport Finished!Using Time: {}min".format(
                             str(int(int(self.now_time) - int(self.start_time)) / 60)))
                         exit()

@@ -28,6 +28,5 @@ class App:
         trainer.start()
 
 
-
 if __name__ == '__main__':
     fire.Fire(App)
