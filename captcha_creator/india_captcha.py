@@ -83,5 +83,5 @@ def get_mca_captcha(num):
 
 
 if __name__ == '__main__':
-    # get_gst_captcha(10)
-    get_mca_captcha(10)
+    get_gst_captcha(100)
+    # get_mca_captcha(10)
