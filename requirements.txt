@@ -8,4 +8,4 @@ numpy
 pillow
 captcha
 requests
-ddddocr==1.4.3
+ddddocr
