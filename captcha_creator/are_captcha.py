@@ -43,7 +43,6 @@ def init_by_captcha(num: int):
 
     from captcha.image import ImageCaptcha, DEFAULT_FONTS
 
-    from my_test import md5file
     images_set_path = r'/Users/lu/Downloads/are'
     random_string = ''.join(
         ['n', '9', 'v', 'e', 'j', 'h', 'u', 'b', 'a', 'm', 'y', 'f', 'p', 'r', '4', '8', 'd', 'q', '3',
@@ -59,10 +58,6 @@ def init_by_captcha(num: int):
         name = f'{code}.png'
         file_path = os.path.join(images_set_path, name)
         image.write(code, file_path)
-        md5_str = md5file(file_path)
-        new_name = name[:name.find('.')] + '_' + md5_str + name[name.find('.'):]
-        # print(new_name)
-        os.rename(file_path, os.path.join(images_set_path, new_name))
 
 
 if __name__ == '__main__':
