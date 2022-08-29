@@ -65,7 +65,7 @@ def test_models(file_path, import_onnx_path, charsets_path):
                 image_bytes = f.read()
 
                 code = ocr.classification(image_bytes)
-                print(code)
+                print(code, name)
 
 
 def add_uuid_suffix(images_set_path):
@@ -75,7 +75,7 @@ def add_uuid_suffix(images_set_path):
     files = os.listdir(images_set_path)
     for name in files:
         if '_' in name:
-            print(f'name:{name} 包含 _,captcha len:{len(name[:name.find("_")])}',  )
+            print(f'name:{name} 包含 _,captcha len:{len(name[:name.find("_")])}', )
             continue
 
         file_path = os.path.join(images_set_path, name)
@@ -111,31 +111,32 @@ def remove_duplicates(images_set_path):
             os.remove(file_path)
         else:
             data[md5_str].append(name)
-def check_captcha_length(images_set_path,target_len=6):
+
+
+def check_captcha_length(images_set_path, target_len=6):
     """
     检查验证码长度
     """
     files = os.listdir(images_set_path)
     for name in files:
         if '_' in name:
-            captcha =name[:name.find("_")]
+            captcha = name[:name.find("_")]
         else:
-            captcha= name[:name.find(".")]
-        if len(captcha)!=target_len:
+            captcha = name[:name.find(".")]
+        if len(captcha) != target_len:
             print(name)
         if '1' in captcha:
             print(name)
 
 
-
 if __name__ == '__main__':
-    # test_models("", import_onnx_path="projects/india/models/india_1.0_3375_13000_2022-03-29-09-44-16.onnx",
-    #             charsets_path="projects/india/models/charsets.json")
+    test_models("/Users/lu/Downloads/HK", import_onnx_path="/Users/lu/Documents/both_0.9375_26_101000_2022-08-29-02-02-22.onnx",
+                charsets_path="/Users/lu/Documents/charsets.json")
     # remove_duplicates(images_set_path=r"E:\vermont")
     # first_ocr(images_set_path=r"E:\vermont")
     # print(uuid.uuid4().hex)
     # add_uuid_suffix(r'E:\ARE_data')
-    check_captcha_length(r'E:\ARE_data')
+    # check_captcha_length('/Users/lu/Downloads/ARE_data')
     # ocr = ddddocr.DdddOcr(det=False, ocr=False, show_ad=False,
     #                       )
     # with open('captcha.jpg', 'rb') as f:
