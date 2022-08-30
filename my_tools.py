@@ -63,12 +63,11 @@ def test_models(file_path, import_onnx_path, charsets_path):
         for name in listdir:
             with open(os.path.join(file_path, name), 'rb') as f:
                 image_bytes = f.read()
-
                 code = ocr.classification(image_bytes)
                 print(code, name)
 
 
-def add_uuid_suffix(images_set_path):
+def add_md5_suffix(images_set_path):
     # images_set_path = "E:\\india_images_set1"
     # images_set_path = "E:\\custom"
 
@@ -129,18 +128,33 @@ def check_captcha_length(images_set_path, target_len=6):
             print(name)
 
 
+def image_ocr(file_path):
+    """
+
+    """
+    ocr = ddddocr.DdddOcr(det=False, ocr=False, show_ad=False, )
+    if os.path.isfile(file_path):
+        with open(file_path, 'rb') as f:
+            image_bytes = f.read()
+            code = ocr.classification(image_bytes)
+            print(code)
+    if os.path.isdir(file_path):
+        listdir = os.listdir(file_path)
+        for name in listdir:
+            with open(os.path.join(file_path, name), 'rb') as f:
+                image_bytes = f.read()
+
+                code = ocr.classification(image_bytes)
+                print(code, name)
+
+
 if __name__ == '__main__':
-    test_models("/Users/lu/Downloads/HK", import_onnx_path="/Users/lu/Documents/both_0.9375_26_101000_2022-08-29-02-02-22.onnx",
+    test_models("/Users/lu/Downloads/ARE_data",
+                import_onnx_path="/Users/lu/Documents/are_1.0_23_53000_2022-08-29-06-07-55.onnx",
                 charsets_path="/Users/lu/Documents/charsets.json")
+    # image_ocr("E:\ARE_data")
     # remove_duplicates(images_set_path=r"E:\vermont")
     # first_ocr(images_set_path=r"E:\vermont")
     # print(uuid.uuid4().hex)
-    # add_uuid_suffix(r'E:\ARE_data')
+    # add_md5_suffix(r'E:\ARE_data')
     # check_captcha_length('/Users/lu/Downloads/ARE_data')
-    # ocr = ddddocr.DdddOcr(det=False, ocr=False, show_ad=False,
-    #                       )
-    # with open('captcha.jpg', 'rb') as f:
-    #     image_bytes = f.read()
-    #
-    #     code = ocr.classification(image_bytes)
-    #     print(code)

@@ -8,7 +8,7 @@ import os
 
 from captcha.image import ImageCaptcha, DEFAULT_FONTS
 
-from my_test import md5file
+from my_tools import md5file
 images_set_path=r'E:\captcha_data\numbe_chars'
 ALL_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 RANDOM_STRING = 'abcdefghijklmnpqrstuvwxyz023456789'
