@@ -1,8 +1,9 @@
+import os
 import time
 import uuid
 
 
-def get_from_web():
+def get_from_web(path):
     from crawl_knife.browser.base import image_interceptor
     from crawl_knife.browser.chrome import init_driver
     from selenium.webdriver.common.by import By
@@ -12,7 +13,7 @@ def get_from_web():
     def save_interceptor(request, response):
         if request.path == '/Search_By_BN.aspx':
             if 'DXCache' in request.params:
-                with open(f'E:/ARE/{uuid.uuid4().hex}.png', 'wb') as f:
+                with open(os.path.join(path,f'{uuid.uuid4().hex}.png') , 'wb') as f:
                     f.write(response.body)
 
     driver = init_driver()
