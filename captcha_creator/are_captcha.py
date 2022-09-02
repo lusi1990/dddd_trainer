@@ -33,7 +33,7 @@ def get_from_web(path):
         driver.quit()
 
 
-def init_by_captcha(num: int):
+def init_by_captcha(images_set_path, num: int):
     """
 
     """
@@ -44,7 +44,6 @@ def init_by_captcha(num: int):
 
     from captcha.image import ImageCaptcha
 
-    images_set_path = r'/Users/lu/Downloads/are'
     char_set = ['n', '9', 'v', 'e', 'j', 'h', 'u', 'b', 'a', 'm', 'y', 'f', 'p', 'r', '4', '8', 'd', 'q', '3',
                 'z', 'l', 'x', '2', '7', '6', 'c', 's', '5', 'k', 't']
 
@@ -60,4 +59,4 @@ def init_by_captcha(num: int):
 
 
 if __name__ == '__main__':
-    init_by_captcha(10)
+    init_by_captcha(r'/Users/lu/Downloads/are', 10)
