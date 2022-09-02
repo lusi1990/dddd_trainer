@@ -13,7 +13,7 @@ def get_from_web(path):
     def save_interceptor(request, response):
         if request.path == '/Search_By_BN.aspx':
             if 'DXCache' in request.params:
-                with open(os.path.join(path,f'{uuid.uuid4().hex}.png') , 'wb') as f:
+                with open(os.path.join(path, f'{uuid.uuid4().hex}.png'), 'wb') as f:
                     f.write(response.body)
 
     driver = init_driver()
@@ -37,24 +37,21 @@ def init_by_captcha(num: int):
     """
 
     """
-    import base64
+
     import random
-    import string
+
     import os
 
-    from captcha.image import ImageCaptcha, DEFAULT_FONTS
+    from captcha.image import ImageCaptcha
 
     images_set_path = r'/Users/lu/Downloads/are'
-    char_set=['n', '9', 'v', 'e', 'j', 'h', 'u', 'b', 'a', 'm', 'y', 'f', 'p', 'r', '4', '8', 'd', 'q', '3',
-     'z', 'l', 'x', '2', '7', '6', 'c', 's', '5', 'k', 't']
+    char_set = ['n', '9', 'v', 'e', 'j', 'h', 'u', 'b', 'a', 'm', 'y', 'f', 'p', 'r', '4', '8', 'd', 'q', '3',
+                'z', 'l', 'x', '2', '7', '6', 'c', 's', '5', 'k', 't']
 
-    random_string = ''.join(char_set       )
+    random_string = ''.join(char_set)
+    print(random_string)
 
-    names = os.listdir('./fonts')
-    for n in names:
-        DEFAULT_FONTS.append('./fonts/' + n)
-
-    image = ImageCaptcha()
+    image = ImageCaptcha(fonts=['./fonts/CALISTI.TTF'])
     for _ in range(num):
         code = ''.join(random.choices(random_string, k=6))
         name = f'{code}.png'
@@ -63,4 +60,4 @@ def init_by_captcha(num: int):
 
 
 if __name__ == '__main__':
-    init_by_captcha('E:/are2')
+    init_by_captcha(10)
