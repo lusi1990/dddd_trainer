@@ -126,7 +126,8 @@ def check_captcha_length(images_set_path, target_len=6):
             print(name)
         if '1' in captcha:
             print(name)
-
+        if 'o' in captcha:
+            print(name)
 
 def image_ocr(file_path):
     """
@@ -149,12 +150,11 @@ def image_ocr(file_path):
 
 
 if __name__ == '__main__':
-    test_models("/Users/lu/Downloads/ARE_data",
-                import_onnx_path="/Users/lu/Documents/are_1.0_23_53000_2022-08-29-06-07-55.onnx",
-                charsets_path="/Users/lu/Documents/charsets.json")
+    # test_models("/Users/lu/Downloads/ARE_data",
+    #             import_onnx_path="/Users/lu/Documents/are_1.0_23_53000_2022-08-29-06-07-55.onnx",
+    #             charsets_path="/Users/lu/Documents/charsets.json")
     # image_ocr("E:\ARE_data")
     # remove_duplicates(images_set_path=r"E:\vermont")
-    # first_ocr(images_set_path=r"E:\vermont")
-    # print(uuid.uuid4().hex)
+    # first_ocr(images_set_path=r"E:\are2")
     # add_md5_suffix(r'E:\ARE_data')
-    # check_captcha_length('/Users/lu/Downloads/ARE_data')
+    check_captcha_length(r'E:\ARE_data')
