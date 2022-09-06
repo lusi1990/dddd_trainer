@@ -50,7 +50,7 @@ def init_by_captcha(images_set_path, num: int):
     random_string = ''.join(char_set)
     print(random_string)
 
-    image = ImageCaptcha(fonts=['./fonts/CALISTI.TTF'])
+    image = ImageCaptcha(width=100, height=50, fonts=['./fonts/CALISTI.TTF'])
     for _ in range(num):
         code = ''.join(random.choices(random_string, k=6))
         name = f'{code}.png'
@@ -59,4 +59,4 @@ def init_by_captcha(images_set_path, num: int):
 
 
 if __name__ == '__main__':
-    init_by_captcha(r'/Users/lu/Downloads/are', 10)
+    init_by_captcha(r'E:\are3', 10000)
