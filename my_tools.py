@@ -50,7 +50,7 @@ def test_models(file_path, import_onnx_path, charsets_path):
     """
 
     """
-    ocr = ddddocr.DdddOcr(det=False, ocr=False, show_ad=False,
+    ocr = ddddocr.DdddOcr(ocr=False, show_ad=False,
                           import_onnx_path=import_onnx_path,
                           charsets_path=charsets_path)
     if os.path.isfile(file_path):
@@ -60,11 +60,16 @@ def test_models(file_path, import_onnx_path, charsets_path):
             print(code)
     if os.path.isdir(file_path):
         listdir = os.listdir(file_path)
+        count = 0
         for name in listdir:
             with open(os.path.join(file_path, name), 'rb') as f:
                 image_bytes = f.read()
                 code = ocr.classification(image_bytes)
-                print(code, name)
+                org_code = name.split('_')[0]
+                print(code, org_code)
+                if code == org_code:
+                    count += 1
+        print(count, len(listdir), count / len(listdir))
 
 
 def add_md5_suffix(images_set_path):
@@ -129,6 +134,7 @@ def check_captcha_length(images_set_path, target_len=6):
         if 'o' in captcha:
             print(name)
 
+
 def image_ocr(file_path):
     """
 
@@ -150,11 +156,11 @@ def image_ocr(file_path):
 
 
 if __name__ == '__main__':
-    # test_models("/Users/lu/Downloads/ARE_data",
-    #             import_onnx_path="/Users/lu/Documents/are_1.0_23_53000_2022-08-29-06-07-55.onnx",
-    #             charsets_path="/Users/lu/Documents/charsets.json")
+    test_models("/Users/lu/Downloads/label",
+                import_onnx_path="projects/are/models/are_1.0_554_46000_2022-09-07-00-21-58.onnx",
+                charsets_path="projects/are/models/charsets.json")
     # image_ocr("E:\ARE_data")
     # remove_duplicates(images_set_path=r"E:\vermont")
     # first_ocr(images_set_path=r"E:\are2")
     # add_md5_suffix(r'E:\ARE_data')
-    check_captcha_length(r'E:\ARE_data')
+    # check_captcha_length(r'E:\ARE_data')

@@ -1,6 +1,8 @@
 import os
-from configs import Config
+
 from loguru import logger
+
+from configs import Config
 
 
 class ProjectManager:

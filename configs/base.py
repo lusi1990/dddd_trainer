@@ -43,7 +43,6 @@ class Config(object):
             }
         }
 
-
     def make_config(self, config_dict=None, single: bool = False):
         if not config_dict:
             config_dict = self.config_dict

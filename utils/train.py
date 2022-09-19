@@ -4,11 +4,11 @@ import random
 import time
 
 import tqdm
+from loguru import logger
 
 from configs import Config
-from loguru import logger
-from utils import load_cache
 from nets import Net
+from utils import load_cache
 
 
 class Train:
@@ -36,19 +36,19 @@ class Train:
 
         self.resize = [int(self.conf['Model']['ImageWidth']), int(self.conf['Model']['ImageHeight'])]
         self.word = self.conf['Model']['Word']
-        self.ImageChannel = self.conf['Model']['ImageChannel']
-        logger.info("\nTaget:\nmin_Accuracy: {}\nmin_Epoch: {}\nmax_Loss: {}".format(self.target_acc, self.min_epoch,
-                                                                                     self.max_loss))
+        self.image_channel = self.conf['Model']['ImageChannel']
+        logger.info("\nTaget:\nmin_Accuracy: {}\nmin_Epoch: {}\nmax_Loss: {}", self.target_acc, self.min_epoch,
+                    self.max_loss)
         self.use_gpu = self.conf['System']['GPU']
         if self.use_gpu:
             self.gpu_id = self.conf['System']['GPU_ID']
-            logger.info("\nUSE GPU ----> {}".format(self.gpu_id))
+            logger.info("\nUSE GPU ----> {}", self.gpu_id)
             self.device = Net.get_device(self.gpu_id)
 
         else:
             self.gpu_id = -1
             self.device = Net.get_device(self.gpu_id)
-            logger.info("\nUSE CPU".format(self.gpu_id))
+            logger.info("\nUSE CPU")
         logger.info("\nSearch for history checkpoints...")
         history_checkpoints = os.listdir(self.checkpoints_path)
         if len(history_checkpoints) > 0:
@@ -92,7 +92,7 @@ class Train:
     def start(self):
         val_iter = iter(self.val)
         while True:
-            for idx, (inputs, labels, labels_length) in enumerate(self.train):
+            for id_, (inputs, labels, labels_length) in enumerate(self.train):
                 self.now_time = time.time()
                 inputs = self.net.variable_to_device(inputs, device=self.device)
 
@@ -103,19 +103,21 @@ class Train:
                 self.step += 1
 
                 if self.step % 100 == 0 and self.step % self.test_step != 0:
-                    logger.info("{}\tEpoch: {}\tStep: {}\tLastLoss: {}\tAvgLoss: {}\tLr: {}".format(
-                        time.strftime("[%Y-%m-%d-%H_%M_%S]", time.localtime(self.now_time)), self.epoch, self.step,
-                        str(loss), str(self.avg_loss / 100), lr
-                    ))
+                    logger.info("{}\tEpoch: {}\tStep: {}\tLastLoss: {}\tAvgLoss: {}\tLr: {}",
+                                time.strftime("[%Y-%m-%d-%H_%M_%S]", time.localtime(self.now_time)),
+                                self.epoch,
+                                self.step,
+                                loss, self.avg_loss / 100,
+                                lr
+                                )
                     self.avg_loss = 0
                 if self.step % self.save_checkpoints_step == 0 and self.step != 0:
-                    model_path = os.path.join(self.checkpoints_path, "checkpoint_{}_{}_{}.tar".format(
-                        self.project_name, self.epoch, self.step,
-                    ))
+                    model_path = os.path.join(self.checkpoints_path,
+                                              f"checkpoint_{self.project_name}_{self.epoch}_{self.step}.tar"
+                                              )
                     self.net.scheduler.step()
-                    self.net.save_model(model_path,
-                                        {"net": self.net.state_dict(), "optimizer": self.net.optimizer.state_dict(),
-                                         "epoch": self.epoch, "step": self.step, "lr": lr})
+                    self.net.save_model({"net": self.net.state_dict(), "optimizer": self.net.optimizer.state_dict(),
+                                         "epoch": self.epoch, "step": self.step, "lr": lr}, model_path, )
 
                 if self.step % self.test_step == 0:
                     try:
@@ -132,10 +134,12 @@ class Train:
                                                                                          test_labels_length)
                     self.net = self.net.train()
                     accuracy = len(correct_list) / test_inputs.shape[0]
-                    logger.info("{}\tEpoch: {}\tStep: {}\tLastLoss: {}\tAvgLoss: {}\tLr: {}\tAcc: {}".format(
-                        time.strftime("[%Y-%m-%d-%H_%M_%S]", time.localtime(self.now_time)), self.epoch, self.step,
-                        str(loss), str(self.avg_loss / 100), lr, accuracy
-                    ))
+                    logger.info("{}\tEpoch: {}\tStep: {}\tLastLoss: {}\tAvgLoss: {}\tLr: {}\tAcc: {}",
+                                time.strftime("[%Y-%m-%d-%H_%M_%S]", time.localtime(self.now_time)),
+                                self.epoch,
+                                self.step,
+                                loss, self.avg_loss / 100, lr, accuracy
+                                )
                     self.avg_loss = 0
                     if accuracy > self.target_acc and self.epoch > self.min_epoch and self.avg_loss < self.max_loss:
                         logger.info("\nTraining Finished!Exporting Model...")
@@ -154,7 +158,7 @@ class Train:
                                              , input_names, output_names, dynamic_ax)
                         with open(os.path.join(self.models_path, "charsets.json"), 'w', encoding="utf-8") as f:
                             f.write(json.dumps({"charset": self.net.charset, "image": self.resize, "word": self.word,
-                                                'channel': self.ImageChannel}, ensure_ascii=False))
+                                                'channel': self.image_channel}, ensure_ascii=False))
                         logger.info("\nExport Finished!Using Time: {}min".format(
                             str(int(int(self.now_time) - int(self.start_time)) / 60)))
                         exit()

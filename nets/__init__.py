@@ -182,13 +182,13 @@ class Net(torch.nn.Module):
 
         return loss.item(), self.scheduler.state_dict()['_last_lr'][-1]
 
-    def save_model(self, path, net):
+    def save_model(self, net, path):
         torch.save(net, path)
 
     @staticmethod
     def get_device(gpu_id):
         if gpu_id == -1:
-            device = torch.device('cpu'.format(str(gpu_id)))
+            device = torch.device('cpu')
         else:
             device = torch.device('cuda:{}'.format(str(gpu_id)))
         return device

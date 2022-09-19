@@ -2,13 +2,12 @@ import json
 import os
 
 import torch
-
-from configs import Config
-from loguru import logger
-
 import torchvision
+from loguru import logger
 from PIL import Image, ImageFile
 from torch.utils.data import DataLoader, Dataset, TensorDataset
+
+from configs import Config
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 

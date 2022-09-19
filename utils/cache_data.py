@@ -3,9 +3,9 @@ import os
 import random
 
 import tqdm
+from loguru import logger
 
 from configs import Config
-from loguru import logger
 
 
 class CacheData:
