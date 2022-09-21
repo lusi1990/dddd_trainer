@@ -28,12 +28,15 @@ def get_captcha(path, num):
     }
     session = requests.Session()
     for _ in range(num):
-        response = session.request("GET", url.format(int(time.time())), headers=headers, data=payload,timeout=5)
-        if response.status_code == 200:
-            with open(os.path.join(path, f'{uuid.uuid4().hex}.jpeg'), "wb") as f:
-                f.write(response.content)
-        else:
-            print(response.status_code)
+        try:
+            response = session.request("GET", url.format(int(time.time())), headers=headers, data=payload, timeout=5)
+            if response.status_code == 200:
+                with open(os.path.join(path, f'{uuid.uuid4().hex}.jpeg'), "wb") as f:
+                    f.write(response.content)
+            else:
+                print(response.status_code)
+        except Exception:
+            pass
 
 
 if __name__ == '__main__':
