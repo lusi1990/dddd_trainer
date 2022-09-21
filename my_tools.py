@@ -117,7 +117,7 @@ def remove_duplicates(images_set_path):
             data[md5_str].append(name)
 
 
-def check_captcha_length(images_set_path, target_len=6):
+def check_are_captcha_length(images_set_path, target_len=6):
     """
     检查验证码长度
     """
@@ -150,7 +150,6 @@ def image_ocr(file_path):
         for name in listdir:
             with open(os.path.join(file_path, name), 'rb') as f:
                 image_bytes = f.read()
-
                 code = ocr.classification(image_bytes)
                 print(code, name)
 
